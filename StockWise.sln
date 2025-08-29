@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36408.4 d17.14
+VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockWise", "StockWise\StockWise.csproj", "{5F339134-3B4B-4DB4-AD0C-1249B549F141}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockWise.Infrastructure", "StockWise.Infrastructure\StockWise.Infrastructure.csproj", "{618D8F50-CE44-44E9-9765-A190970E456C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockWise.Domain", "StockWise.Domain\StockWise.Domain.csproj", "{0601CE93-9257-4DFD-A5D3-5ABF17303D9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{5F339134-3B4B-4DB4-AD0C-1249B549F141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F339134-3B4B-4DB4-AD0C-1249B549F141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F339134-3B4B-4DB4-AD0C-1249B549F141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618D8F50-CE44-44E9-9765-A190970E456C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618D8F50-CE44-44E9-9765-A190970E456C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618D8F50-CE44-44E9-9765-A190970E456C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618D8F50-CE44-44E9-9765-A190970E456C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0601CE93-9257-4DFD-A5D3-5ABF17303D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0601CE93-9257-4DFD-A5D3-5ABF17303D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0601CE93-9257-4DFD-A5D3-5ABF17303D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0601CE93-9257-4DFD-A5D3-5ABF17303D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
