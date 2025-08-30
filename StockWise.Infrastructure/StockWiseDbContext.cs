@@ -1,24 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using StockWise.Domain.Entities;
 
 namespace StockWise.Infrastructure
 {
     public class StockWiseDbContext : DbContext
     {
-        private IConfiguration _configuration;
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Stockmovement> StockMovements { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
 
-        public StockWiseDbContext(IConfiguration configuration)
+        public StockWiseDbContext(DbContextOptions<StockWiseDbContext> options)
+            : base(options)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //base.OnConfiguring(optionsBuilder);
-            var typeDatabase = _configuration["TypeDatabase"];
-            var connectionsString = _configuration.GetConnectionString(typeDatabase);
-
-            optionsBuilder.UseNpgsql(connectionsString);
-        }
     }
 }

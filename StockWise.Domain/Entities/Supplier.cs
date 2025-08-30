@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StockWise.Domain.Entities;
 
 public partial class Supplier
 {
-    public int Supplierid { get; set; }
+    [Key]
+    public int supplier_id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string name { get; set; } = null!;
 
-    public string? Contactname { get; set; }
+    public string? contact_name { get; set; }
 
-    public string? Contactemail { get; set; }
+    public string? contact_email { get; set; }
 
-    public string? Contactphone { get; set; }
+    public string? contact_phone { get; set; }
 
-    public string? Address { get; set; }
+    public string? address { get; set; }
 
-    public DateTime? Createdat { get; set; }
+    public DateTime? created_at { get; set; }
 
-    public DateTime? Updatedat { get; set; }
+    public DateTime? updated_at { get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public virtual ICollection<Product> products { get; set; } = new List<Product>();
 }
