@@ -4,77 +4,92 @@ Este projeto é uma Web API desenvolvida em .NET para o gerenciamento de estoque
 
 ---
 
-## Arquitetura do Projeto
+##  Arquitetura do Projeto
 
 A solução é dividida em três projetos principais, cada um com uma responsabilidade bem definida:
 
-* **StockWise.API**: O projeto principal da Web API. Sua única função é expor os **Controllers** que lidam com as requisições HTTP da web e retornam as respostas. Esta camada não tem conhecimento sobre a lógica de acesso ao banco de dados.
-* **StockWise.Infrastructure**: Uma biblioteca de classes responsável por toda a lógica de acesso e configuração do banco de dados. É nesta camada que reside o **DbContext** e a configuração do **Entity Framework Core**.
-* **StockWise.Domain**: Uma biblioteca de classes que contém apenas as **entidades** (classes) que representam as tabelas do banco de dados. Esta camada não possui nenhuma lógica de banco de dados.
+* **StockWise.API**: Expõe os **Controllers** que lidam com as requisições HTTP e as respostas, servindo como a porta de entrada da aplicação.
+* **StockWise.Infrastructure**: Contém toda a lógica de acesso e configuração do banco de dados, incluindo o **DbContext** e as configurações do **Entity Framework Core**.
+* **StockWise.Domain**: Contém apenas as **entidades** (POCOs) que representam as tabelas do banco de dados, sem nenhuma dependência de infraestrutura.
 
 ---
 
-## Tecnologias e Pacotes Principais
+## Tecnologias Principais
 
-* Linguagem: **C#**
-* Framework: **.NET**
-* Banco de Dados: **PostgreSQL**
-* ORM: **Entity Framework Core**
-* Driver PostgreSQL: **Npgsql.EntityFrameworkCore.PostgreSQL**
+* **C#** / **.NET 8** (ou superior)
+* **ASP.NET Core**
+* **Entity Framework Core** para ORM
+* **PostgreSQL** como banco de dados
+* **EFCore.NamingConventions** para mapeamento automático `PascalCase` -> `snake_case`
+* **Swagger (Swashbuckle)** para documentação e testes da API
 
 ---
 
-## Configuração do Projeto
+## 🚀 Como Rodar o Projeto Localmente
 
-### Conexão com o Banco de Dados
+Siga os passos abaixo para configurar e executar a API em seu ambiente de desenvolvimento.
 
-A string de conexão com o banco de dados é lida do arquivo `appsettings.json` localizado no projeto **StockWise.API**. A configuração é injetada no **StockWiseDbContext** (localizado na camada `Infrastructure`) usando o processo de **Injeção de Dependência (Dependency Injection - DI)**.
+### Pré-requisitos
 
-**Exemplo de appsettings.json:**
+* [.NET SDK](https://dotnet.microsoft.com/download)
+* [Git](https://git-scm.com/downloads)
+* [PostgreSQL](https://www.postgresql.org/download/)
 
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*",
-  "TypeDatabase": "PostgreSQL",
-  "ConnectionStrings": {
-    "PostgreSQL": "Host=localhost;Port=porta-que-voce-usa-no-banco;Pooling=true;Database=nome_da_tabela;User Id=postgres;Password=sua-senha;"
-  }
-}
+### Passo 1: Clonar o Repositório
+
+```bash
+git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+cd seu-repositorio
 ```
 
-O método OnConfiguring na classe StockWiseDbContext utiliza a IConfiguration para determinar o tipo de banco de dados e a string de conexão correspondente.
+### Passo 2: Criar e Configurar o Banco de Dados
 
---- 
+1.  Certifique-se de que seu serviço do PostgreSQL está em execução.
+2.  Crie um banco de dados vazio para o projeto. Ex: `CREATE DATABASE stockwise_db;`
+3.  **Configure a Conexão (Modo Seguro):** A configuração da conexão é feita via **Injeção de Dependência** no `Program.cs`, lendo a string de forma segura através do **User Secrets**. Na pasta do projeto **StockWise.API**, execute o comando abaixo, substituindo pelos seus dados:
 
-Geração de Entidades (Scaffolding)
-As classes de entidade na camada StockWise.Domain são geradas automaticamente a partir do esquema do banco de dados existente utilizando o comando scaffold do Entity Framework Core. Este processo garante que as classes C# reflitam com precisão a estrutura das tabelas.
+    ```bash
+    dotnet user-secrets set "ConnectionStrings:PostgreSQL" "Host=localhost;Port=5432;Database=stockwise_db;Username=postgres;Password=sua-senha"
+    ```
+    *Isso garante que suas senhas nunca sejam expostas no código-fonte.*
 
-O comando abaixo, executado a partir do terminal no projeto StockWise.Domain, gera as entidades no diretório Entities e não sobrescreve o DbContext existente.
+### Passo 3: Aplicar as Migrations
 
-```dotnet ef dbcontext scaffold "Host=localhost;Port=8888;Database=Bruno;Username=postgres;Password=Elefante" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir ../StockWise.Domain/Entities --no-dbcontext --force```
+O projeto utiliza **EF Core Migrations** para criar a estrutura do banco de dados. Este comando lê as migrações existentes no projeto e cria todas as tabelas para você.
+
+Na **pasta raiz da solução** (a pasta que contém os 3 projetos), execute:
+
+```bash
+dotnet ef database update --project StockWise.Infrastructure --startup-project StockWise.API
+```
+Ao final, seu banco de dados estará com o schema pronto e todas as tabelas criadas.
+
+### Passo 4: Executar a API
+
+Na pasta do projeto **StockWise.API**, execute a aplicação:
+
+```bash
+dotnet run
+```
+A API estará rodando. O terminal informará o endereço, geralmente `https://localhost:7001`.
 
 ---
 
-Estrutura do Banco de Dados
-O banco de dados da API StockWise é construído em PostgreSQL e foi projetado para ser um sistema de gerenciamento de estoque simples e eficiente. A estrutura é composta por quatro tabelas principais que se relacionam para rastrear produtos, fornecedores e movimentações de estoque.
+## Uso da API
 
-### Products:  
-A tabela central que armazena informações detalhadas sobre cada item (nome, preço, SKU e quantidade em estoque).
+Com a API em execução, acesse a documentação interativa do **Swagger UI** no seu navegador para explorar e testar todos os endpoints disponíveis:
 
-### Suppliers: 
-Contém informações sobre os fornecedores dos produtos.
+**`https://localhost:7001/swagger/index.html`** (ajuste a porta se necessário)
 
-### Categories: 
-Permite a categorização dos produtos.
+---
 
-### StockMovements: 
-Uma tabela crucial para auditoria, que registra cada entrada e saída de produto do estoque, garantindo um histórico completo de transações.
+## Visão Geral do Banco de Dados
 
-As tabelas de Products, Suppliers e Categories são interligadas por chaves estrangeiras, enquanto a tabela de StockMovements mantém um registro de todas as alterações na quantidade de produtos.
+O banco de dados em PostgreSQL é composto por quatro tabelas principais no padrão `snake_case`:
 
+* **products**: A tabela central que armazena informações detalhadas sobre cada item (nome, preço, SKU e quantidade em estoque).
+* **suppliers**: Contém informações sobre os fornecedores dos produtos.
+* **categories**: Permite a categorização dos produtos.
+* **stock_movements**: Tabela de auditoria que registra cada entrada e saída de produto, garantindo um histórico completo de transações.
+
+As tabelas se relacionam através de chaves estrangeiras para garantir a integridade dos dados.
