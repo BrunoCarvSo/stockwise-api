@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using StockWise.Domain;
 using StockWise.Infrastructure;
@@ -17,7 +18,6 @@ var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
 builder.Services.AddDbContext<StockWiseDbContext>(options =>
     options.UseNpgsql(connectionString)
     .UseSnakeCaseNamingConvention());
-
 
 var app = builder.Build();
 

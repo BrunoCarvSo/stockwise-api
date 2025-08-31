@@ -1,37 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace StockWise.Domain.Entities;
 
 public partial class Product
 {
-    [Key]
-    public int product_id { get; set; }
-
-    public string name { get; set; } = null!;
-
-    public string? description { get; set; }
-
-    public string? sku { get; set; }
-
-    public decimal price { get; set; }
-
-    public int quantity_in_stock { get; set; }
-
-    public int? category_id { get; set; }
-
-    public int? supplier_id { get; set; }
-
-    public bool? is_active { get; set; }
-
-    public DateTime? created_at { get; set; }
-
-    public DateTime? updated_at { get; set; }
-
-    public virtual Category? category { get; set; }
-
-    public virtual ICollection<Stockmovement> stockmovements { get; set; } = new List<Stockmovement>();
-
-    public virtual Supplier? supplier { get; set; }
+    public int ProductId { get; set; }
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
+    public string? Sku { get; set; }
+    public decimal Price { get; set; }
+    public int QuantityInStock { get; set; }
+    public int? CategoryId { get; set; }
+    public int? SupplierId { get; set; }
+    public bool? IsActive { get; set; }
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public virtual Category? Category { get; set; }
+    public virtual ICollection<StockMovement> StockMovements { get; set; } = new List<StockMovement>();
+    public virtual Supplier? Supplier { get; set; }
 }
